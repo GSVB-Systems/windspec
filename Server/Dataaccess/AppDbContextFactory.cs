@@ -11,12 +11,12 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         Env.Load();
 
-        var conn = Environment.GetEnvironmentVariable("ConnectionStringsDefaultConnection")
+        var conn = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
                    ?? Environment.GetEnvironmentVariable("CONNECTION_STRING")
                    ?? Environment.GetEnvironmentVariable("DATABASE_URL");
 
         if (string.IsNullOrWhiteSpace(conn))
-            throw new InvalidOperationException("Set ConnectionStringsDefaultConnection, CONNECTION_STRING or DATABASE_URL in environment for design-time DbContext.");
+            throw new InvalidOperationException("Set ConnectionStrings__DefaultConnection, CONNECTION_STRING or DATABASE_URL in environment for design-time DbContext.");
 
         if (conn.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
             conn = BuildConnectionStringFromDatabaseUrl(conn);

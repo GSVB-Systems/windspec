@@ -23,12 +23,12 @@ public class AppDbContext : DbContext
         Env.Load();
 
 
-        var conn = Environment.GetEnvironmentVariable("ConnectionStringsDefaultConnection")
+        var conn = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
                    ?? Environment.GetEnvironmentVariable("CONNECTION_STRING")
                    ?? Environment.GetEnvironmentVariable("DATABASE_URL");
 
         if (string.IsNullOrWhiteSpace(conn))
-            throw new InvalidOperationException("No database connection string found in environment (ConnectionStringsDefaultConnection, CONNECTION_STRING or DATABASE_URL).");
+            throw new InvalidOperationException("No database connection string found in environment (ConnectionStrings__DefaultConnection, CONNECTION_STRING or DATABASE_URL).");
 
         if (conn.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
             conn = BuildConnectionStringFromDatabaseUrl(conn);

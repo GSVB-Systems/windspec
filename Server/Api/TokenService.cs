@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Api.Models;
+using Dataaccess.Repository.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -26,7 +27,7 @@ public class TokenService
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.UserID),
-            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
         };
 
         var key = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
