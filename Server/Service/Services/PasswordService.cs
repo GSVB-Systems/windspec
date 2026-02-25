@@ -9,9 +9,9 @@ public class PasswordService
     }
 
 
-    public bool VerifyPassword(string plainPassword, string hashedPassword)
+    public bool VerifyPassword(string plainPassword, string PasswordHash)
     {
-        return BCrypt.Net.BCrypt.Verify(plainPassword, hashedPassword);
+        return BCrypt.Net.BCrypt.Verify(plainPassword, PasswordHash);
     }
 
 }

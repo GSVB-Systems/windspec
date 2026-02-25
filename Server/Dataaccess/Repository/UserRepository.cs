@@ -1,47 +1,19 @@
 using Dataaccess.Repository.Entities;
 using Dataaccess.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dataaccess.Repository;
 
-public class UserRepository: IUserRepository
+public class UserRepository: Repository<User>, IUserRepository
 {
-    public Task<User?> GetByIdAsync(string id)
+    public UserRepository(AppDbContext context) : base(context)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<User>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IQueryable<User> AsQueryable()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddAsync(User entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateAsync(User entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(User entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SaveChangesAsync()
-    {
-        throw new NotImplementedException();
     }
 
     public Task<User> GetUserByUsernameAsync(string username)
     {
-        throw new NotImplementedException();
+        var usernameCorrect = _dbSet.FirstOrDefaultAsync(u => u.Username == username);
+        Console.Write(usernameCorrect);
+        return usernameCorrect;
     }
 }

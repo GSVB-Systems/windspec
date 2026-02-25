@@ -12,6 +12,10 @@ using Service.Auth;
 using Service.Interfaces;
 using Service.Services;
 using Sieve.Services;
+using StackExchange.Redis;
+using StateleSSE.AspNetCore.Extensions;
+using DotNetEnv;
+using Mqtt.Controllers;
 
 namespace Api.Extension;
 
@@ -24,6 +28,7 @@ public static class ServiceCollectionExtensions
         Action<IServiceCollection>? configureOverrides = null
     )
     {
+        
         // Only require the connection string when we intend to register the default DbContext
         if (addDefaultDbContext)
         {
@@ -76,14 +81,21 @@ public static class ServiceCollectionExtensions
                 };
             });
         services.AddScoped<IUserRepository, UserRepository>();
+        
 
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect("localhost:6379"));
+        services.AddRedisSseBackplane();
+        services.AddMqttControllers();
         services.AddControllers();
         services.AddOpenApiDocument();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<PasswordService>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddSingleton(jwtOptions);
         services.AddSingleton<JwtTokenService>();
+        services.AddScoped<TokenService>();
         services.AddAuthorization();
         
         // Allow tests (or other callers) to override registrations, e.g., swap DbContext with a test container

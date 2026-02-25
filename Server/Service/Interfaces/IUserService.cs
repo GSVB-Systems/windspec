@@ -5,5 +5,5 @@ namespace Service.Interfaces;
 
 public interface IUserService : IService<UserDTO, UserCreateDTO, UserUpdateDTO>
 {
-    Task<AuthResponseDTO?> LoginAsync(LoginRequestDTO request);
+    Task<string> LoginAsync(LoginRequestDTO request);
 }

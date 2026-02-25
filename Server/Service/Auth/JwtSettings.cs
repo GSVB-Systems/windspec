@@ -1,4 +1,4 @@
-namespace Api.Models;
+namespace Service.Auth;
 
 public class JwtSettings
 {

@@ -1,11 +1,11 @@
 using System.Security.Claims;
-using Api.Models;
 using Dataaccess.Repository.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Api;
+namespace Service.Auth;
 
 public class TokenService
 {
@@ -16,10 +16,11 @@ public class TokenService
     {
         _config = config;
         _settings = settings.Value;
+        
     }
 
     public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
-    public const string JwtKey = "JWT_SECRET";
+    public const string JwtKey = config.GetSection("Jwt").GetValue<string>("Secret") ?? throw new InvalidOperationException("JWT Key not configured");
 
     public string CreateToken(User user)
     {
