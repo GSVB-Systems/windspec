@@ -20,12 +20,20 @@ public class UserController : ControllerBase
     [HttpGet("me")]
     public async Task<ActionResult<UserDTO>> GetMe()
     {
-        var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+
+        // Try both 'sub' and NameIdentifier
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrWhiteSpace(userId))
+        {
             return Unauthorized();
+        }
 
         var user = await _userService.GetByIdAsync(userId);
-        return user is null ? NotFound() : Ok(user);
+        if (user is null)
+        {
+            return NotFound();
+        }
+        return Ok(user);
     }
     
     [AllowAnonymous]

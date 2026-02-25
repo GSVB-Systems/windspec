@@ -7,7 +7,7 @@ public class TurbineController(ILogger<TurbineController> logger) : MqttControll
     [MqttRoute("farm/{farmId}/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
-            logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
+            //logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
             
         }
         

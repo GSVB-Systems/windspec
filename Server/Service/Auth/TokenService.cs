@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text;
 using Dataaccess.Repository.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -15,23 +16,22 @@ public class TokenService
     public TokenService(IConfiguration config, IOptions<JwtSettings> settings)
     {
         _config = config;
-        _settings = settings.Value;
-        
     }
 
     public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
-    public const string JwtKey = config.GetSection("Jwt").GetValue<string>("Secret") ?? throw new InvalidOperationException("JWT Key not configured");
 
     public string CreateToken(User user)
     {
-
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.UserID),
             new Claim(ClaimTypes.Name, user.Username),
         };
-
-        var key = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
+        
+        var secret = _config.GetSection("Jwt").GetValue<string>("Secret") ?? throw new InvalidOperationException("JWT Key not configured");
+        var key = Encoding.UTF8.GetBytes(secret);
+        var issuer = _config.GetSection("Jwt").GetValue<string>("Issuer");
+        var audience = _config.GetSection("Jwt").GetValue<string>("Audience");
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             SigningCredentials = new SigningCredentials(
@@ -40,6 +40,8 @@ public class TokenService
             ),
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddDays(7),
+            Issuer = issuer,
+            Audience = audience
         };
         var tokenHandler = new JsonWebTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -50,19 +52,21 @@ public class TokenService
 
     public static TokenValidationParameters ValidationParameters(IConfiguration config)
     {
-        var key = Convert.FromBase64String(config.GetValue<string>(JwtKey)!);
+        var secret = config.GetSection("Jwt").GetValue<string>("Secret") ?? throw new InvalidOperationException("JWT Key not configured");
+        var key = Encoding.UTF8.GetBytes(secret);
+        var issuer = config.GetSection("Jwt").GetValue<string>("Issuer");
+        var audience = config.GetSection("Jwt").GetValue<string>("Audience");
         return new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidAlgorithms = [SignatureAlgorithm],
             ValidateIssuerSigningKey = true,
             TokenDecryptionKey = null,
-
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidateIssuer = !string.IsNullOrWhiteSpace(issuer),
+            ValidateAudience = !string.IsNullOrWhiteSpace(audience),
             ValidateLifetime = true,
-
-            // Set to 0 when validating on the same system that created the token
+            ValidIssuer = issuer,
+            ValidAudience = audience,
             ClockSkew = TimeSpan.Zero,
         };
     }

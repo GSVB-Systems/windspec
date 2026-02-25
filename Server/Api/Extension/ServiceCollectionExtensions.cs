@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
-using Service.Auth;
+using Service.Auth; // Ensure JwtSettings is imported
 using Service.Interfaces;
 using Service.Services;
 using Sieve.Services;
@@ -58,27 +58,18 @@ public static class ServiceCollectionExtensions
         }
 
         var jwtSection = configuration.GetSection("Jwt");
-        var jwtOptions = jwtSection.Get<JwtOptions>() ?? throw new InvalidOperationException("Missing Jwt configuration.");
-        if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
+        var jwtSettings = jwtSection.Get<JwtSettings>() ?? throw new InvalidOperationException("Missing Jwt configuration.");
+        if (string.IsNullOrWhiteSpace(jwtSettings.Secret))
             throw new InvalidOperationException("Jwt:Secret must be configured (appsettings.Development.json or environment variables).");
 
-        var secretByteLength = Encoding.UTF8.GetByteCount(jwtOptions.Secret);
+        var secretByteLength = Encoding.UTF8.GetByteCount(jwtSettings.Secret);
         if (secretByteLength < 32)
             throw new InvalidOperationException("Jwt:Secret must be at least 32 bytes (256 bits).");
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret))
-                };
+                options.TokenValidationParameters = TokenService.ValidationParameters(configuration);
             });
         services.AddScoped<IUserRepository, UserRepository>();
         
@@ -93,8 +84,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<PasswordService>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
-        services.AddSingleton(jwtOptions);
-        services.AddSingleton<JwtTokenService>();
+        services.AddScoped<JwtSettings>();
         services.AddScoped<TokenService>();
         services.AddAuthorization();
         

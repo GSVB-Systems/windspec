@@ -1,8 +1,10 @@
 using Contracts.Models;
 using Contracts.Models.UserDTO;
 using Dataaccess.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
 using Service.Auth;
 using Service.Interfaces;
+using Service.Mapper;
 using Sieve.Models;
 using Sieve.Services;
 
@@ -24,9 +26,13 @@ public class UserService: IUserService
         _TokenService = TokenService;
     }
     
-    public Task<UserDTO?> GetByIdAsync(string id)
+    public async Task<UserDTO?> GetByIdAsync(string id)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(id))
+            return null;
+
+        var entity = await _userRepository.GetByIdAsync(id);
+        return entity is null ? null : UserMapper.ToDto(entity);
     }
 
     public Task<PagedResult<UserDTO>> GetAllAsync(SieveModel? parameters)
@@ -64,7 +70,6 @@ public class UserService: IUserService
             return null;
 
         var token = _TokenService.CreateToken(user);
-
         return token;
     }
 }
