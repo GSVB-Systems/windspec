@@ -70,7 +70,8 @@ public class AppDbContext : DbContext
         
         modelBuilder.Entity<Telemetry>(eb =>
         {
-            eb.HasKey(t => t.turbineId);
+            eb.HasKey(t => t.id);
+            eb.Property(t => t.turbineId);
             eb.Property(t => t.turbineName).ValueGeneratedOnAdd();
             eb.Property(t => t.farmId).IsRequired();
             eb.Property(t => t.timestamp).IsRequired();

@@ -2,6 +2,7 @@
 
 public class Telemetry
 {
+    public string id { get; set; } = Guid.NewGuid().ToString();
     public string turbineId { get; set; } = string.Empty;
     public string turbineName { get; set; } = string.Empty;
     public string farmId { get; set; } = string.Empty;

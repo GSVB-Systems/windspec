@@ -11,6 +11,7 @@ using Npgsql;
 using Service.Auth; // Ensure JwtSettings is imported
 using Service.Interfaces;
 using Service.Services;
+using Service.Mapper;
 using Sieve.Services;
 using StackExchange.Redis;
 using StateleSSE.AspNetCore.Extensions;
@@ -90,6 +91,9 @@ public static class ServiceCollectionExtensions
         services.AddOpenApiDocument();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+        services.AddScoped<TelemetryMapper>();
+        services.AddScoped<ITelemetryService, TelemetryService>();
         services.AddScoped<PasswordService>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddScoped<JwtSettings>();

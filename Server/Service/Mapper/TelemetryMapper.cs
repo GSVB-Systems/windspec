@@ -47,6 +47,7 @@ public class TelemetryMapper
             gearboxTemp = telemetry.gearboxTemp,
             vibration = telemetry.vibration,
             status = telemetry.status
+            
         };
     }
 }
