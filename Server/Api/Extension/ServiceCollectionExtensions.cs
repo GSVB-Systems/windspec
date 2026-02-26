@@ -16,6 +16,8 @@ using StackExchange.Redis;
 using StateleSSE.AspNetCore.Extensions;
 using DotNetEnv;
 using Mqtt.Controllers;
+using StateleSSE.AspNetCore;
+using StateleSSE.AspNetCore.GroupRealtime;
 
 namespace Api.Extension;
 
@@ -52,9 +54,13 @@ public static class ServiceCollectionExtensions
             {
                 // Ignore parsing issues; EF/Npgsql will surface a useful error.
             }
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(conn, npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()));
-            
+
+            services.AddDbContext<AppDbContext>((sp, options) =>
+            {
+                options.UseNpgsql(conn, npgsqlOptions => npgsqlOptions.EnableRetryOnFailure());
+                options.AddEfRealtimeInterceptor(sp);
+            });
+
         }
 
         var jwtSection = configuration.GetSection("Jwt");
@@ -77,6 +83,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IConnectionMultiplexer>(sp =>
             ConnectionMultiplexer.Connect("localhost:6379"));
         services.AddRedisSseBackplane();
+        services.AddEfRealtime();
+        services.AddGroupRealtime();
         services.AddMqttControllers();
         services.AddControllers();
         services.AddOpenApiDocument();
