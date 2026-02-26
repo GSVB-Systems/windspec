@@ -7,6 +7,6 @@ namespace Service.Interfaces;
 public interface ITelemetryService
 {
 
-    Task<Telemetry> CreateTelemetryAsync(TelemetryDTO telemetry);
+    Task<TelemetryDTO> CreateTelemetryAsync(TelemetryDTO telemetry);
     
 }

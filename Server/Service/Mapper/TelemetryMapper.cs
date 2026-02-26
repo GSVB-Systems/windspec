@@ -5,7 +5,7 @@ namespace Service.Mapper;
 
 public class TelemetryMapper
 {
-    public static TelemetryDTO ToDto(Telemetry telemetry)
+    public TelemetryDTO ToDto(Telemetry telemetry)
     {
         return new TelemetryDTO
         {

@@ -1,13 +1,35 @@
 using Mqtt.Controllers;
+using Service.Services;
 
 namespace Api.Controllers;
 
-public class TurbineController(ILogger<TurbineController> logger) : MqttController
+public class TurbineController(ILogger<TurbineController> logger, TelemetryService telemetryService) : MqttController
 {
-    [MqttRoute("farm/{farmId}/windmill/{turbineId}/telemetry")]
+    [MqttRoute("farm/GSVB/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
             logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
+            
+            var telemetryDTO = new Contracts.Models.TelemetryDTO.TelemetryDTO
+            {
+                turbineId = telemetry.turbineId,
+                turbineName = telemetry.turbineName,
+                farmId = telemetry.farmId,
+                timestamp = telemetry.timestamp,
+                windSpeed = telemetry.windSpeed,
+                windDirection = telemetry.windDirection,
+                ambientTemperature = telemetry.ambientTemperature,
+                rotorSpeed = telemetry.rotorSpeed,
+                powerOutput = telemetry.powerOutput,
+                nacelleDirection = telemetry.nacelleDirection,
+                bladePitch = telemetry.bladePitch,
+                generatorTemp = telemetry.generatorTemp,
+                gearboxTemp = telemetry.gearboxTemp,
+                vibration = telemetry.vibration,
+                status = telemetry.status
+            };
+            
+            await telemetryService.CreateTelemetryAsync(telemetryDTO);
             
         }
         
