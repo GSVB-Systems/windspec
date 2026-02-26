@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> User { get; set; } = null!;
+    public DbSet<Telemetry> Telemetry { get; set; } = null!;
+    
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -64,6 +66,25 @@ public class AppDbContext : DbContext
             eb.Property(u => u.FirstName).IsRequired();
             eb.Property(u => u.LastName).IsRequired();
             
+        });
+        
+        modelBuilder.Entity<Telemetry>(eb =>
+        {
+            eb.HasKey(t => t.turbineId);
+            eb.Property(t => t.turbineName).ValueGeneratedOnAdd();
+            eb.Property(t => t.farmId).IsRequired();
+            eb.Property(t => t.timestamp).IsRequired();
+            eb.Property(t => t.windSpeed).IsRequired();
+            eb.Property(t => t.windDirection).IsRequired();
+            eb.Property(t => t.ambientTemperature).ValueGeneratedOnAdd();
+            eb.Property(t => t.rotorSpeed).IsRequired();
+            eb.Property(t => t.powerOutput).IsRequired();
+            eb.Property(t => t.nacelleDirection).IsRequired();
+            eb.Property(t => t.bladePitch).IsRequired();
+            eb.Property(t => t.generatorTemp).ValueGeneratedOnAdd();
+            eb.Property(t => t.gearboxTemp).IsRequired();
+            eb.Property(t => t.vibration).IsRequired();
+            eb.Property(t => t.status).IsRequired();
         });
 
         base.OnModelCreating(modelBuilder);
