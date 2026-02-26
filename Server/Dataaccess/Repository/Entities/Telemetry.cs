@@ -1,8 +1,11 @@
-﻿namespace Dataaccess.Repository.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Dataaccess.Repository.Entities;
 
 public class Telemetry
 {
-    public string id { get; set; } = Guid.NewGuid().ToString();
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid(); // Use GUID as primary key
     public string turbineId { get; set; } = string.Empty;
     public string turbineName { get; set; } = string.Empty;
     public string farmId { get; set; } = string.Empty;

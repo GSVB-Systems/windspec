@@ -6,15 +6,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dataaccess.Migrations
 {
     /// <inheritdoc />
-    public partial class telemeteryAdded : Migration
+    public partial class InitalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Alerts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    farmId = table.Column<string>(type: "text", nullable: false),
+                    message = table.Column<string>(type: "text", nullable: false),
+                    severity = table.Column<string>(type: "text", nullable: false),
+                    timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    turbineId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alerts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Telemetry",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     turbineId = table.Column<string>(type: "text", nullable: false),
                     turbineName = table.Column<string>(type: "text", nullable: false),
                     farmId = table.Column<string>(type: "text", nullable: false),
@@ -33,7 +50,22 @@ namespace Dataaccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Telemetry", x => x.turbineId);
+                    table.PrimaryKey("PK_Telemetry", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    UserID = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.UserID);
                 });
         }
 
@@ -41,7 +73,13 @@ namespace Dataaccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Alerts");
+
+            migrationBuilder.DropTable(
                 name: "Telemetry");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

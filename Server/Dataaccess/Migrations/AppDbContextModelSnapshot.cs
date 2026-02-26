@@ -24,8 +24,9 @@ namespace Dataaccess.Migrations
 
             modelBuilder.Entity("Dataaccess.Repository.Entities.Alerts", b =>
                 {
-                    b.Property<string>("turbineId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("farmId")
                         .IsRequired()
@@ -42,15 +43,20 @@ namespace Dataaccess.Migrations
                     b.Property<DateTime>("timestamp")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("turbineId");
+                    b.Property<string>("turbineId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Alerts");
                 });
 
             modelBuilder.Entity("Dataaccess.Repository.Entities.Telemetry", b =>
                 {
-                    b.Property<string>("id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<double>("ambientTemperature")
                         .ValueGeneratedOnAdd()
@@ -67,7 +73,6 @@ namespace Dataaccess.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<double>("generatorTemp")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("double precision");
 
                     b.Property<double>("nacelleDirection")
@@ -104,7 +109,7 @@ namespace Dataaccess.Migrations
                     b.Property<double>("windSpeed")
                         .HasColumnType("double precision");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Telemetry");
                 });

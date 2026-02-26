@@ -70,7 +70,8 @@ public class AppDbContext : DbContext
         
         modelBuilder.Entity<Telemetry>(eb =>
         {
-            eb.HasKey(t => t.id);
+            eb.HasKey(t => t.Id); // Use 'Id' (Guid) as the primary key
+            eb.Property(t => t.Id).ValueGeneratedOnAdd();
             eb.Property(t => t.turbineId);
             eb.Property(t => t.turbineName).ValueGeneratedOnAdd();
             eb.Property(t => t.farmId).IsRequired();
@@ -82,15 +83,17 @@ public class AppDbContext : DbContext
             eb.Property(t => t.powerOutput).IsRequired();
             eb.Property(t => t.nacelleDirection).IsRequired();
             eb.Property(t => t.bladePitch).IsRequired();
-            eb.Property(t => t.generatorTemp).ValueGeneratedOnAdd();
+            eb.Property(t => t.generatorTemp).IsRequired();
             eb.Property(t => t.gearboxTemp).IsRequired();
             eb.Property(t => t.vibration).IsRequired();
-            eb.Property(t => t.status).IsRequired();
+            eb.Property(t => t.status);
         });
         
         modelBuilder.Entity<Alerts>(eb =>
         {
-            eb.HasKey(a => a.turbineId);
+            eb.HasKey(a => a.Id); // Use 'Id' (Guid) as the primary key
+            eb.Property(a => a.Id).ValueGeneratedOnAdd();
+            eb.Property(a => a.turbineId).IsRequired();
             eb.Property(a => a.farmId).IsRequired();
             eb.Property(a => a.timestamp).IsRequired();
             eb.Property(a => a.severity).IsRequired();
