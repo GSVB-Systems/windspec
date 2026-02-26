@@ -86,6 +86,15 @@ public class AppDbContext : DbContext
             eb.Property(t => t.vibration).IsRequired();
             eb.Property(t => t.status).IsRequired();
         });
+        
+        modelBuilder.Entity<Alerts>(eb =>
+        {
+            eb.HasKey(a => a.turbineId);
+            eb.Property(a => a.farmId).IsRequired();
+            eb.Property(a => a.timestamp).IsRequired();
+            eb.Property(a => a.severity).IsRequired();
+            eb.Property(a => a.message).IsRequired();
+        });
 
         base.OnModelCreating(modelBuilder);
     }
