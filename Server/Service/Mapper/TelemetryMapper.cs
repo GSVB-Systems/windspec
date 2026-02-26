@@ -28,7 +28,7 @@ public class TelemetryMapper
 
     }
 
-    public object ToEntity(TelemetryDTO telemetry)
+    public Telemetry ToEntity(TelemetryDTO telemetry)
     {
         return new Telemetry
         {
