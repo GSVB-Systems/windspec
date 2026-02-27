@@ -2,7 +2,7 @@
 
 namespace Dataaccess.Repository.Entities;
 
-public class Alerts
+public class Alert
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid(); // Use GUID as primary key

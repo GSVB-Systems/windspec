@@ -4,15 +4,14 @@ using Service.Services;
 
 namespace Api.Controllers;
 
-public class TurbineController(ILogger<TurbineController> logger, ITelemetryService telemetryService) : MqttController
+public class TurbineController(ILogger<TurbineController> logger, ITelemetryService telemetryService, IAlertService alertService) : MqttController
 {
-    private readonly ITelemetryService _telemetryService = telemetryService;
     
     [MqttRoute("farm/GSVB/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
             logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
-            
+
             var telemetryDTO = new Contracts.Models.TelemetryDTO.TelemetryDTO
             {
                 turbineId = telemetry.turbineId,
@@ -31,9 +30,9 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
                 vibration = telemetry.vibration,
                 status = telemetry.status
             };
-            
-            await _telemetryService.CreateTelemetryAsync(telemetryDTO);
-            
+
+            await telemetryService.CreateTelemetryAsync(telemetryDTO);
+
         }
         
     public record Telemetry(
@@ -54,13 +53,24 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
         string status
     );
     
-    
-    [MqttRoute("farm/{farmId}/windmill/{turbineId}/alert")]
-    public async Task HandleAlert(string farmId, string turbineId, Alert alert)
-    {
-        logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}", turbineId, alert);
+    [MqttRoute("farm/GSVB/windmill/{turbineId}/alert")]
+        public async Task HandleAlert(string farmId, string turbineId, Alert alert)
+        {
+            logger.LogInformation("Alerts for {TurbineId} in farm {FarmId}", turbineId, alert);
+             
+            var alertDTO = new Contracts.Models.AlertDTO.AlertDTO
+            {
+                turbineId = alert.turbineId,
+                farmId = alert.farmId,
+                timestamp = alert.timestamp,
+                severity = alert.severity,
+                message = alert.message
+            };
             
-    }
+            await alertService.CreateAlertAsync(alertDTO);
+            
+        }
+    
     
     public record Alert(
         string turbineId,

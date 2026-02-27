@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> User { get; set; } = null!;
     public DbSet<Telemetry> Telemetry { get; set; } = null!;
+    public DbSet<Alert> Alert { get; set; } = null!;
     
     
 
@@ -89,7 +90,7 @@ public class AppDbContext : DbContext
             eb.Property(t => t.status);
         });
         
-        modelBuilder.Entity<Alerts>(eb =>
+        modelBuilder.Entity<Alert>(eb =>
         {
             eb.HasKey(a => a.Id); // Use 'Id' (Guid) as the primary key
             eb.Property(a => a.Id).ValueGeneratedOnAdd();

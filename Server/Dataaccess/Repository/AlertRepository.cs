@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dataaccess.Repository;
 
-public class AlertRepository : Repository<Alerts>, IAlertRepository
+public class AlertRepository : Repository<Alert>, IAlertRepository
 {
     public AlertRepository(AppDbContext context) : base(context)
     {
         
     }
 
-    public async Task<IEnumerable<Alerts>> GetAlertsByFarmId(string farmId)
+    public async Task<IEnumerable<Alert>> GetAlertByFarmId(string farmId)
     {
         return await _dbSet.Where(a => a.farmId == farmId).ToListAsync();
         
     }
 
-    public async Task<IEnumerable<Alerts>> GetAlertsByTurbineId(string turbineId)
+    public async Task<IEnumerable<Alert>> GetAlertByTurbineId(string turbineId)
     {
         return await _dbSet.Where(a => a.turbineId == turbineId).ToListAsync();
     }

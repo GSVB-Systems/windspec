@@ -2,8 +2,8 @@
 
 namespace Dataaccess.Repository.Interfaces;
 
-public interface IAlertRepository : IRepository<Alerts>
+public interface IAlertRepository : IRepository<Alert>
 {
-    Task<IEnumerable<Alerts>> GetAlertsByFarmId(string farmId);
-    Task<IEnumerable<Alerts>> GetAlertsByTurbineId(string turbineId);
+    Task<IEnumerable<Alert>> GetAlertByFarmId(string farmId);
+    Task<IEnumerable<Alert>> GetAlertByTurbineId(string turbineId);
 }

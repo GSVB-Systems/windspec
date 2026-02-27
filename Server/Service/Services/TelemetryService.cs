@@ -10,26 +10,24 @@ public class TelemetryService : ITelemetryService
 {
     
     private readonly ITelemetryRepository _telemetryRepository;
-    private readonly TelemetryMapper _mapper;
+    private readonly TelemetryMapper _telemetryMapper;
     
-    public TelemetryService(ITelemetryRepository repository, TelemetryMapper mapper)
+    public TelemetryService(ITelemetryRepository repository, TelemetryMapper telemetryMapper)
     {
         _telemetryRepository = repository;
-        _mapper = mapper;
+        _telemetryMapper = telemetryMapper;
         
     }
     
     public async Task<TelemetryDTO> CreateTelemetryAsync(TelemetryDTO telemetry)
     {
-        var entity = _mapper.ToEntity(telemetry);
+        var entity = _telemetryMapper.ToEntity(telemetry);
 
         await _telemetryRepository.AddAsync(entity);
         await _telemetryRepository.SaveChangesAsync();
 
-        var DTOResult = _mapper.ToDto(entity);
+        var DTOResult = _telemetryMapper.ToDto(entity);
 
         return DTOResult;
     }
-
-    
 }

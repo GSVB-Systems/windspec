@@ -94,6 +94,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITelemetryRepository, TelemetryRepository>();
         services.AddScoped<TelemetryMapper>();
         services.AddScoped<ITelemetryService, TelemetryService>();
+        services.AddScoped<IAlertRepository, AlertRepository>();
+        services.AddScoped<AlertMapper>();
+        services.AddScoped<IAlertService, AlertService>();
         services.AddScoped<PasswordService>();
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddScoped<JwtSettings>();
