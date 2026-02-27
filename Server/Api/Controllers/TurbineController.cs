@@ -7,6 +7,10 @@ namespace Api.Controllers;
 public class TurbineController(ILogger<TurbineController> logger, ITelemetryService telemetryService, IAlertService alertService) : MqttController
 {
     
+    private readonly ITelemetryService _telemetryService = telemetryService;
+    private readonly IAlertService _alertService = alertService;
+    
+    
     [MqttRoute("farm/GSVB/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
@@ -31,7 +35,7 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
                 status = telemetry.status
             };
 
-            await telemetryService.CreateTelemetryAsync(telemetryDTO);
+            await _telemetryService.CreateTelemetryAsync(telemetryDTO);
 
         }
         
@@ -67,7 +71,7 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
                 message = alert.message
             };
             
-            await alertService.CreateAlertAsync(alertDTO);
+            await _alertService.CreateAlertAsync(alertDTO);
             
         }
     
