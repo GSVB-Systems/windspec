@@ -22,7 +22,7 @@ namespace Dataaccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Dataaccess.Repository.Entities.Alerts", b =>
+            modelBuilder.Entity("Dataaccess.Repository.Entities.Alert", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace Dataaccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Alerts");
+                    b.ToTable("Alert");
                 });
 
             modelBuilder.Entity("Dataaccess.Repository.Entities.Telemetry", b =>

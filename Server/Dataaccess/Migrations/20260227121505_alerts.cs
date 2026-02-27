@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dataaccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class alerts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Alerts",
+                name: "Alert",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -24,7 +24,7 @@ namespace Dataaccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alerts", x => x.Id);
+                    table.PrimaryKey("PK_Alert", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +73,7 @@ namespace Dataaccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Alerts");
+                name: "Alert");
 
             migrationBuilder.DropTable(
                 name: "Telemetry");

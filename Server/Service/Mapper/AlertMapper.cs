@@ -10,6 +10,7 @@ public class AlertMapper
         return new AlertDTO
         {
             turbineId = alert.turbineId,
+            farmId = alert.farmId,
             timestamp = alert.timestamp,
             severity = alert.severity,
             message = alert.message
@@ -21,6 +22,7 @@ public class AlertMapper
         return new Alert
         {
             turbineId = alert.turbineId,
+            farmId = alert.farmId,
             timestamp = alert.timestamp,
             severity = alert.severity,
             message = alert.message

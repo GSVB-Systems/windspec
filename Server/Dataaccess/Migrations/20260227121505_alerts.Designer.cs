@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dataaccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260226222845_InitalCreate")]
-    partial class InitalCreate
+    [Migration("20260227121505_alerts")]
+    partial class alerts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Dataaccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Dataaccess.Repository.Entities.Alerts", b =>
+            modelBuilder.Entity("Dataaccess.Repository.Entities.Alert", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace Dataaccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Alerts");
+                    b.ToTable("Alert");
                 });
 
             modelBuilder.Entity("Dataaccess.Repository.Entities.Telemetry", b =>

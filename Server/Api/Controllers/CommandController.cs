@@ -14,4 +14,11 @@ public class CommandController(IMqttClientService mqtt) : ControllerBase
     {
         await mqtt.PublishAsync($"farm/{farmId}/windmill/{turbineId}/command", command.GetRawText());
     }
+    
+    // For testing purposes
+    [HttpPost("farm/{farmId}/windmill/{turbineId}/alert")]
+    public async Task SendAlert(string farmId, string turbineId, [FromBody] JsonElement alert)
+    {
+        await mqtt.PublishAsync($"farm/{farmId}/windmill/{turbineId}/alert", alert.GetRawText());
+    }
 }

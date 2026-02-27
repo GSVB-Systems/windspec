@@ -14,7 +14,7 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
     [MqttRoute("farm/GSVB/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
-            logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
+            //logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
 
             var telemetryDTO = new Contracts.Models.TelemetryDTO.TelemetryDTO
             {
