@@ -7,7 +7,7 @@ using StateleSSE.AspNetCore.GroupRealtime;
 
 namespace Api.Controllers;
 
-public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealtimeManager realtimeManager) : RealtimeControllerBase(backplane)
+public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealtimeManager realtimeManager, IGroupRealtimeManager groupRealtimeManager) : RealtimeControllerBase(backplane)
 {
     
     [HttpGet(nameof(GetTelemetry))]
@@ -18,7 +18,7 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
         realtimeManager.Subscribe<AppDbContext>(connectionId, group, 
             criteria: snapshot =>
             {
-                return snapshot.HasChanges<TurbineController.Telemetry>();
+                return snapshot.HasChanges<Telemetry>();
             },
             query: async context =>
             {

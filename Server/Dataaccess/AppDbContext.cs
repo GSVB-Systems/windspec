@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<User> User { get; set; } = null!;
     public DbSet<Telemetry> Telemetry { get; set; } = null!;
     public DbSet<Alert> Alert { get; set; } = null!;
+    public DbSet<CommandLog> CommandLog { get; set; } = null!;
     
     
 
@@ -100,6 +101,20 @@ public class AppDbContext : DbContext
             eb.Property(a => a.severity).IsRequired();
             eb.Property(a => a.message).IsRequired();
         });
+
+        modelBuilder.Entity<CommandLog>(eb =>
+        {
+            eb.HasKey(c => c.Id); // Use 'Id' (Guid) as the primary key
+            eb.Property(c => c.Id).ValueGeneratedOnAdd();
+            eb.Property(c => c.turbineId).IsRequired();
+            eb.Property(c => c.farmId).IsRequired();
+            eb.Property(c => c.action).IsRequired();
+            eb.Property(c => c.reason).IsRequired();
+            eb.Property(c => c.timestamp).IsRequired();
+            eb.Property(c => c.angle).IsRequired();
+            eb.Property(c => c.value).IsRequired();
+        });
+        
 
         base.OnModelCreating(modelBuilder);
     }
