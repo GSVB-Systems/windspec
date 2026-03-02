@@ -109,10 +109,10 @@ public class AppDbContext : DbContext
             eb.Property(c => c.turbineId).IsRequired();
             eb.Property(c => c.farmId).IsRequired();
             eb.Property(c => c.action).IsRequired();
-            eb.Property(c => c.reason).IsRequired();
+            eb.Property(c => c.reason);
             eb.Property(c => c.timestamp).IsRequired();
-            eb.Property(c => c.angle).IsRequired();
-            eb.Property(c => c.value).IsRequired();
+            eb.Property(c => c.angle);
+            eb.Property(c => c.value);
         });
         
 

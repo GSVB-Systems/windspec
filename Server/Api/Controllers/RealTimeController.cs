@@ -16,14 +16,8 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
         var group = "telemetry";
         await backplane.Groups.AddToGroupAsync(connectionId, group);
         realtimeManager.Subscribe<AppDbContext>(connectionId, group, 
-            criteria: snapshot =>
-            {
-                return snapshot.HasChanges<Telemetry>();
-            },
-            query: async context =>
-            {
-                return context.Telemetry.ToList();
-            }
+            criteria: snapshot => { return snapshot.HasChanges<Telemetry>(); },
+            query: async context => { return context.Telemetry.OrderBy(t => t.timestamp).Last(); }
             );
         return new RealtimeListenResponse<List<Telemetry>>(group, db.Telemetry.ToList());
     }
@@ -34,8 +28,8 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
         var group = "alerts";
         await backplane.Groups.AddToGroupAsync(connectionId, group);
         realtimeManager.Subscribe<AppDbContext>(connectionId, group,
-            criteria: snapshot => { return snapshot.HasChanges<TurbineController.Alert>(); },
-            query: async context => { return context.Alert.ToList(); }
+            criteria: snapshot => { return snapshot.HasChanges<Alert>(); },
+            query: async context => { return context.Alert.OrderBy(t => t.timestamp).Last(); }
         );
         return new RealtimeListenResponse<List<Alert>>(group, db.Alert.ToList());
     }

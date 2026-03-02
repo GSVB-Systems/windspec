@@ -3,6 +3,7 @@ using System;
 using Dataaccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dataaccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260302093742_commandNullableParams")]
+    partial class commandNullableParams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace Dataaccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double?>("angle")
+                    b.Property<double>("angle")
                         .HasColumnType("double precision");
 
                     b.Property<string>("farmId")
@@ -70,6 +73,7 @@ namespace Dataaccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("reason")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("timestamp")
@@ -79,7 +83,7 @@ namespace Dataaccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("value")
+                    b.Property<int>("value")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

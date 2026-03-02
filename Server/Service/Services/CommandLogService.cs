@@ -16,7 +16,7 @@ public class CommandLogService : ICommandLogService
         
     }
     
-    public async Task<CommandLogDTO> createCommandLogAsync(CommandLogDTO commandLog)
+    public async Task<CommandLogDTO> CreateCommandLogAsync(CommandLogDTO commandLog)
     {
         var entity = _commandLogMapper.ToEntity(commandLog);
 
@@ -28,8 +28,17 @@ public class CommandLogService : ICommandLogService
         return DTOResult;
     }
 
-    public Task<CommandLogDTO> GetAllCommandLogByFarmId(string farmId)
+    public async  Task<List<CommandLogDTO>> GetAllCommandLogByFarmId(string farmId)
     {
-        throw new NotImplementedException();
+            var entities = await _commandLogRepository.GetAllCommandLogByFarmId(farmId);
+            var DTOResult = entities.Select(e => _commandLogMapper.ToDto(e)).ToList();
+            return DTOResult;
+    }
+
+    public Task<List<CommandLogDTO>> GetCommandLogByTurbineId(string turbineId, string commandLogId)
+    {
+        var entities = _commandLogRepository.GetAllCommandLogByTurbineId(turbineId).Result;
+        var DTOResult = entities.Select(e => _commandLogMapper.ToDto(e)).ToList();
+        return Task.FromResult(DTOResult);
     }
 }

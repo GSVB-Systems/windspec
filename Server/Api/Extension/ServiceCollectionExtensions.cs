@@ -97,7 +97,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAlertRepository, AlertRepository>();
         services.AddScoped<AlertMapper>();
         services.AddScoped<IAlertService, AlertService>();
-        services.AddScoped<ICommandLogRepository, ICommandLogRepository>();
+        services.AddScoped<ICommandLogRepository, CommandLogRepository>();
         services.AddScoped<CommandLogMapper>();
         services.AddScoped<ICommandLogService, CommandLogService>();
         services.AddScoped<PasswordService>();

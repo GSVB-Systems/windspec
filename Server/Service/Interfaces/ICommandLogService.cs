@@ -4,6 +4,7 @@ namespace Service.Interfaces;
 
 public interface ICommandLogService
 {
-    Task<CommandLogDTO> createCommandLogAsync(CommandLogDTO commandLog);
-    Task<CommandLogDTO> GetAllCommandLogByFarmId(string farmId);
+    Task<CommandLogDTO> CreateCommandLogAsync(CommandLogDTO commandLog);
+    Task<List<CommandLogDTO>> GetAllCommandLogByFarmId(string farmId);
+    Task<List<CommandLogDTO>> GetCommandLogByTurbineId(string turbineId, string commandLogId);
 }

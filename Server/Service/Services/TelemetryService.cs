@@ -1,5 +1,4 @@
 ﻿using Contracts.Models.TelemetryDTO;
-using Dataaccess.Repository.Entities;
 using Dataaccess.Repository.Interfaces;
 using Service.Interfaces;
 using Service.Mapper;
