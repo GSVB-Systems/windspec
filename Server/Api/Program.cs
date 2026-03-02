@@ -1,3 +1,4 @@
+using Api;
 using Api.Extension;
 using Mqtt.Controllers;
 
