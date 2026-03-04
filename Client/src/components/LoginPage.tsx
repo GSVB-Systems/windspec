@@ -22,29 +22,7 @@ export const LoginPage = () => {
     }
 
     if (token) {
-        return (
-            <div className="min-h-screen w-full flex items-center justify-center overflow-hidden relative"
-                 style={{ background: '#0f0f1a' }}>
-                {/* Ribbon background */}
-                <RibbonBackground idPrefix="r" />
-
-                <div className="relative z-10 w-full max-w-md mx-auto px-4">
-                    <div className="glass-card rounded-3xl p-10 text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6"
-                             style={{ background: 'linear-gradient(135deg, #00d4aa, #0891b2)' }}>
-                            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                        </div>
-                        <h2 className="text-3xl font-bold text-white mb-2">Welcome Back!</h2>
-                        <p className="text-white/60 mb-8">You have been authenticated successfully</p>
-                        <div className="flex items-center justify-center">
-                            <div className="spinner" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
+        return null
     }
 
     return (
