@@ -53,7 +53,11 @@ export const useTelemetry = () => {
         }
 
         es.addEventListener('connected', async (event: MessageEvent) => {
-            const connectionId = event.data
+            let connectionId = event.data
+            try {
+                const parsed = JSON.parse(connectionId)
+                if (parsed?.connectionId) connectionId = parsed.connectionId
+            } catch { /* plain string – use as-is */ }
             try {
                 const response = await realtimeClient.getTelemetry(connectionId)
                 if (response.data) {
