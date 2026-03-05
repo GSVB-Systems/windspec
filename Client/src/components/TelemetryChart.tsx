@@ -35,7 +35,6 @@ const TIME_RANGES: { label: string; minutes: number }[] = [
     { label: 'Last 12 hours', minutes: 720 },
     { label: 'Last 48 hours', minutes: 2880 },
     { label: 'Last week',     minutes: 10080 },
-    { label: 'Last 3 weeks',  minutes: 30240 },
 ]
 
 /** Format an epoch-ms timestamp for the X-axis tick depending on range */

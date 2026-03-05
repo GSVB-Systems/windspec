@@ -1,11 +1,14 @@
 import { useMemo } from 'react'
 import { RibbonBackground } from './RibbonBackground'
 import { TelemetryChart } from './TelemetryChart'
+import { AlertPanel } from './AlertPanel'
 import { useTelemetry } from '../hooks/useTelemetry'
+import { useAlert } from '../hooks/useAlert'
 import './LoginPage.css'
 
 export const Dashboard = () => {
     const { turbineMap, isConnected, error } = useTelemetry()
+    const { alerts, isConnected: alertsConnected, error: alertError, dismissAlert, clearAlerts, severityCounts } = useAlert()
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken')
@@ -25,13 +28,16 @@ export const Dashboard = () => {
             ? latest.reduce((sum, t) => sum + (t.windSpeed ?? 0), 0) / latest.length
             : 0
 
+        const alertTotal = alerts.length
+        const criticalAlerts = severityCounts['critical'] ?? 0
+
         return [
             { label: 'Active Turbines', value: `${activeTurbines} / ${uniqueTurbines}`, icon: '⚡' },
             { label: 'Total Power', value: totalPower >= 1000 ? `${(totalPower / 1000).toFixed(1)} MW` : `${totalPower.toFixed(0)} kW`, icon: '🔋' },
             { label: 'Avg Wind Speed', value: `${avgWind.toFixed(1)} m/s`, icon: '🌬️' },
-            { label: 'Connection', value: isConnected ? 'Live' : 'Offline', icon: isConnected ? '📡' : '⚠️' },
+            { label: 'Alerts', value: criticalAlerts > 0 ? `${criticalAlerts} critical` : `${alertTotal}`, icon: criticalAlerts > 0 ? '🚨' : alertTotal > 0 ? '⚠️' : '✅' },
         ]
-    }, [turbineMap, isConnected])
+    }, [turbineMap, isConnected, alerts, severityCounts])
 
     return (
         <div className="min-h-screen w-full overflow-hidden relative"
@@ -63,7 +69,7 @@ export const Dashboard = () => {
                 <h1 className="text-3xl font-bold text-white" style={{ marginBottom: '0.5rem' }}>Dashboard</h1>
                 <p className="text-white/50" style={{ marginBottom: '2rem' }}>Wind Energy Management Platform</p>
 
-                {/* Error banner */}
+                {/* Error banners */}
                 {error && (
                     <div className="glass-card rounded-xl" style={{
                         padding: '0.75rem 1.25rem',
@@ -71,6 +77,15 @@ export const Dashboard = () => {
                         borderColor: 'rgba(248,113,113,0.3)',
                     }}>
                         <p className="text-red-400 text-sm">{error}</p>
+                    </div>
+                )}
+                {alertError && (
+                    <div className="glass-card rounded-xl" style={{
+                        padding: '0.75rem 1.25rem',
+                        marginBottom: '1.5rem',
+                        borderColor: 'rgba(248,113,113,0.3)',
+                    }}>
+                        <p className="text-red-400 text-sm">{alertError}</p>
                     </div>
                 )}
 
@@ -89,6 +104,17 @@ export const Dashboard = () => {
 
                 {/* Real-time telemetry chart */}
                 <TelemetryChart turbineMap={turbineMap} isConnected={isConnected} />
+
+                {/* Alerts panel */}
+                <div style={{ marginTop: '2rem' }}>
+                    <AlertPanel
+                        alerts={alerts}
+                        isConnected={alertsConnected}
+                        severityCounts={severityCounts}
+                        onDismiss={dismissAlert}
+                        onClearAll={clearAlerts}
+                    />
+                </div>
             </main>
         </div>
     )
