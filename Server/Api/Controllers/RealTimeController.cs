@@ -19,7 +19,7 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
             criteria: snapshot => { return snapshot.HasChanges<Telemetry>(); },
             query: async context => { return context.Telemetry.OrderBy(t => t.timestamp).Last(); }
             );
-        return new RealtimeListenResponse<List<Telemetry>>(group, db.Telemetry.ToList());
+        return new RealtimeListenResponse<List<Telemetry>>(group, db.Telemetry.OrderByDescending(t => t.timestamp).Take(80640).ToList());
     }
 
     [HttpGet(nameof(GetAlert))]
@@ -31,6 +31,6 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
             criteria: snapshot => { return snapshot.HasChanges<Alert>(); },
             query: async context => { return context.Alert.OrderBy(t => t.timestamp).Last(); }
         );
-        return new RealtimeListenResponse<List<Alert>>(group, db.Alert.ToList());
+        return new RealtimeListenResponse<List<Alert>>(group, db.Alert.OrderByDescending(t => t.timestamp).Take(80640).ToList());
     }
 }

@@ -11,7 +11,7 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
     private readonly IAlertService _alertService = alertService;
     
     
-    [MqttRoute("farm/GSVB/windmill/{turbineId}/telemetry")]
+    [MqttRoute("farm/GSVB2/windmill/{turbineId}/telemetry")]
         public async Task HandleTelemetry(string farmId, string turbineId, Telemetry telemetry)
         {
             //logger.LogInformation("Telemetry for {TurbineId} in farm {FarmId}: {@Telemetry}", turbineId, farmId, telemetry);
@@ -57,7 +57,7 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
         string status
     );
     
-    [MqttRoute("farm/GSVB/windmill/{turbineId}/alert")]
+    [MqttRoute("farm/GSVB2/windmill/{turbineId}/alert")]
         public async Task HandleAlert(string farmId, string turbineId, Alert alert)
         {
             logger.LogInformation("Alerts for {TurbineId} in farm {FarmId}", turbineId, alert);
