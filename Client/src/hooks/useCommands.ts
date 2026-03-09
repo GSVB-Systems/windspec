@@ -48,6 +48,13 @@ export const useCommands = () => {
 
             await commandClient.sendCommand(farmId, turbineId, data);
         }
+        if(selected === 'bladePitch'){
+            const action = "setPitch";
+            const angle = paramValue;
+            const data = {action, angle};
+
+            await commandClient.sendCommand(farmId, turbineId, data);
+        }
 
         setConfirmed(true);
         setTimeout(onClose, 1200);
