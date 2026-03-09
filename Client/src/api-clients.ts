@@ -1,5 +1,5 @@
 ﻿import {TOKEN_KEY, tokenStorage} from "./atoms/token.ts";
-import {RealTimeClient, UserClient} from "./models/ServerAPI.ts";
+import {CommandClient, RealTimeClient, UserClient} from "./models/ServerAPI.ts";
 
 const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
@@ -21,3 +21,4 @@ const customFetch = async (url: RequestInfo, init?: RequestInit) => {
 const baseUrl = "http://localhost:5031";
 export const realtimeClient = new RealTimeClient(baseUrl, {fetch: customFetch});
 export const userClient = new UserClient(baseUrl, {fetch: customFetch});
+export const commandClient = new CommandClient(baseUrl, {fetch: customFetch});

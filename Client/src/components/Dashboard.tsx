@@ -1,21 +1,22 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { RibbonBackground } from './RibbonBackground'
 import { TelemetryChart } from './TelemetryChart'
 import { AlertPanel } from './AlertPanel'
 import { useTelemetry } from '../hooks/useTelemetry'
 import { useAlert } from '../hooks/useAlert'
+import { TurbineCommandModal } from "./TurbineCommandModal"
 import './LoginPage.css'
 
-export const Dashboard = () => {
+export default function Dashboard() {
     const { turbineMap, isConnected, error } = useTelemetry()
     const { alerts, isConnected: alertsConnected, error: alertError, dismissAlert, clearAlerts, severityCounts } = useAlert()
+    const [commandTurbineId, setCommandTurbineId] = useState<string | null>(null)
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken')
         window.location.reload()
     }
 
-    /** Derived live stats – last point per turbine (already grouped) */
     const stats = useMemo(() => {
         const entries = [...turbineMap.values()]
         const uniqueTurbines = entries.length
@@ -37,14 +38,12 @@ export const Dashboard = () => {
             { label: 'Avg Wind Speed', value: `${avgWind.toFixed(1)} m/s`, icon: '🌬️' },
             { label: 'Alerts', value: criticalAlerts > 0 ? `${criticalAlerts} critical` : `${alertTotal}`, icon: criticalAlerts > 0 ? '🚨' : alertTotal > 0 ? '⚠️' : '✅' },
         ]
-    }, [turbineMap, isConnected, alerts, severityCounts])
+    }, [turbineMap, alerts, severityCounts])
 
     return (
-        <div className="min-h-screen w-full overflow-hidden relative"
-             style={{ background: '#0f0f1a' }}>
+        <div className="min-h-screen w-full overflow-hidden relative" style={{ background: '#0f0f1a' }}>
             <RibbonBackground idPrefix="db" animated />
 
-            {/* Top bar */}
             <header className="relative z-10 flex items-center justify-between" style={{ padding: '1.5rem 2.5rem' }}>
                 <div className="flex items-center gap-3">
                     <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl"
@@ -55,41 +54,28 @@ export const Dashboard = () => {
                     </div>
                     <span className="text-xl font-bold text-white" style={{ letterSpacing: '-0.02em' }}>WindSpec</span>
                 </div>
-                <button
-                    onClick={handleLogout}
-                    className="glass-button"
-                    style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
-                >
-                    Sign out
-                </button>
+                <div className="flex items-center gap-2" style={{ marginTop: '0.25rem' }}>
+                    <button onClick={handleLogout} className="glass-button" style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
+                        Sign out
+                    </button>
+                </div>
             </header>
 
-            {/* Main content */}
             <main className="relative z-10" style={{ padding: '1.5rem 2.5rem 2.5rem' }}>
                 <h1 className="text-3xl font-bold text-white" style={{ marginBottom: '0.5rem' }}>Dashboard</h1>
                 <p className="text-white/50" style={{ marginBottom: '2rem' }}>Wind Energy Management Platform</p>
 
-                {/* Error banners */}
                 {error && (
-                    <div className="glass-card rounded-xl" style={{
-                        padding: '0.75rem 1.25rem',
-                        marginBottom: '1.5rem',
-                        borderColor: 'rgba(248,113,113,0.3)',
-                    }}>
+                    <div className="glass-card rounded-xl" style={{ padding: '0.75rem 1.25rem', marginBottom: '1.5rem', borderColor: 'rgba(248,113,113,0.3)' }}>
                         <p className="text-red-400 text-sm">{error}</p>
                     </div>
                 )}
                 {alertError && (
-                    <div className="glass-card rounded-xl" style={{
-                        padding: '0.75rem 1.25rem',
-                        marginBottom: '1.5rem',
-                        borderColor: 'rgba(248,113,113,0.3)',
-                    }}>
+                    <div className="glass-card rounded-xl" style={{ padding: '0.75rem 1.25rem', marginBottom: '1.5rem', borderColor: 'rgba(248,113,113,0.3)' }}>
                         <p className="text-red-400 text-sm">{alertError}</p>
                     </div>
                 )}
 
-                {/* Live stats cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4" style={{ gap: '1.5rem', marginBottom: '2rem' }}>
                     {stats.map((stat) => (
                         <div key={stat.label} className="glass-card rounded-2xl" style={{ padding: '1.75rem' }}>
@@ -102,10 +88,13 @@ export const Dashboard = () => {
                     ))}
                 </div>
 
-                {/* Real-time telemetry chart */}
-                <TelemetryChart turbineMap={turbineMap} isConnected={isConnected} />
+                {/* Pass onTurbineClick so TelemetryChart can open the modal */}
+                <TelemetryChart
+                    turbineMap={turbineMap}
+                    isConnected={isConnected}
+                    onTurbineClick={(turbineId) => setCommandTurbineId(turbineId)}
+                />
 
-                {/* Alerts panel */}
                 <div style={{ marginTop: '2rem' }}>
                     <AlertPanel
                         alerts={alerts}
@@ -116,6 +105,14 @@ export const Dashboard = () => {
                     />
                 </div>
             </main>
+
+            {commandTurbineId && (
+                <TurbineCommandModal
+                    farmId={turbineMap.get(commandTurbineId)?.points[0]?.farmId ?? ''}
+                    turbineId={commandTurbineId}
+                    onClose={() => setCommandTurbineId(null)}
+                />
+            )}
         </div>
     )
 }

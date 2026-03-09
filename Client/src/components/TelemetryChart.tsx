@@ -61,9 +61,10 @@ function formatTooltipLabel(epoch: number): string {
 interface TelemetryChartProps {
     turbineMap: TurbineMap
     isConnected: boolean
+    onTurbineClick?: (turbineId: string) => void
 }
 
-export const TelemetryChart = ({ turbineMap, isConnected }: TelemetryChartProps) => {
+export const TelemetryChart = ({ turbineMap, isConnected, onTurbineClick }: TelemetryChartProps) => {
     const [selectedMetric, setSelectedMetric] = useState<keyof Telemetry>('powerOutput')
     const [rangeMinutes, setRangeMinutes] = useState(60) // default: last hour
 
@@ -199,8 +200,13 @@ export const TelemetryChart = ({ turbineMap, isConnected }: TelemetryChartProps)
                             <div key={turbineId} className="glass-card rounded-xl" style={{ padding: '1.25rem' }}>
                                 <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                     <div>
-                                        <h3 className="text-sm font-semibold text-white">{name}</h3>
-                                        <span className="text-xs text-white/35">{turbineId}</span>
+                                        <h3
+                                            className="text-sm font-semibold text-white cursor-pointer hover:text-teal-400 transition-colors"
+                                            onClick={() => onTurbineClick?.(turbineId)}
+                                            title="Click to send command"
+                                        >
+                                            {name}
+                                        </h3><span className="text-xs text-white/35">{turbineId}</span>
                                     </div>
                                     <span
                                         className="text-xs font-medium px-2 py-0.5 rounded-full"

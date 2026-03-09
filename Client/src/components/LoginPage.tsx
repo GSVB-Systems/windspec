@@ -5,7 +5,7 @@ import type { LoginRequestDTO } from '../models/ServerAPI'
 import './LoginPage.css'
 import { RibbonBackground } from './RibbonBackground'
 
-export const LoginPage = () => {
+export default function LoginPage() {
     const { login, isLoading, error, token } = useLogin()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -19,6 +19,7 @@ export const LoginPage = () => {
         }
 
         await login(request)
+
     }
 
     if (token) {
