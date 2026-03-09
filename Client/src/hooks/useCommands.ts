@@ -43,14 +43,14 @@ export const useCommands = () => {
         }
         if(selected === 'interval'){
             const action = "setInterval";
-            const value = paramValue;
+            const value = parseInt(paramValue);
             const data = {action, value};
 
             await commandClient.sendCommand(farmId, turbineId, data);
         }
         if(selected === 'bladePitch'){
             const action = "setPitch";
-            const angle = paramValue;
+            const angle = parseInt(paramValue);
             const data = {action, angle};
 
             await commandClient.sendCommand(farmId, turbineId, data);
