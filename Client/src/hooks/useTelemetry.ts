@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { realtimeClient } from '../api-clients'
 import type { Telemetry } from '../models/ServerAPI'
 
-const SSE_URL = 'http://localhost:5031/sse'
+const SSE_URL = '/sse'
 
 /** Max data points kept per turbine */
 const MAX_POINTS = 500
