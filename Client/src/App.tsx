@@ -19,14 +19,6 @@ function App() {
                         )
                     },
                     {
-                        path: "/commands",
-                        element: (
-                            <ProtectedRoute>
-                                <CommandPage/>
-                            </ProtectedRoute>
-                        )
-                    },
-                    {
                         path: "/login",
                         element: <LoginPage/>
                     }
