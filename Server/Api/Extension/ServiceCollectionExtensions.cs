@@ -81,8 +81,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         
 
-        var redis = configuration.GetSection("Redis").Value
-            ?? throw new InvalidOperationException("Connection string 'ConnectionStrings:ConnectionRedis:Redis' was not found.");
+        var redis = configuration.GetSection("ConnectionRedis:Redis").Value
+            ?? throw new InvalidOperationException("Connection string 'ConnectionRedis:Redis' was not found.");
         services.AddSingleton<IConnectionMultiplexer>(sp =>
         {
             var config = ConfigurationOptions.Parse(redis);
