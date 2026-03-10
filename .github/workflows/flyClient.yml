@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - main
-      - Dev
+      - Client
   pull_request:
     branches:
       - main
-      - Dev    # change to main if needed
+      - Client    # change to main if needed
 jobs:
   deploy:
     name: Deploy app
