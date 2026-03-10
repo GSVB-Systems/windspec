@@ -19,8 +19,6 @@ public class CommandController(IMqttClientService mqtt, ICommandLogService comma
     [HttpPost("farm/{farmId}/windmill/{turbineId}/command")]
     public async Task SendCommand(string farmId, string turbineId, [FromBody] JsonElement command)
     {
-        await mqtt.PublishAsync($"farm/{farmId}/windmill/{turbineId}/command", command.GetRawText());
-        
         await _commandLogService.CreateCommandLogAsync(new CommandLogDTO()
         {
             farmId = farmId,
@@ -31,8 +29,9 @@ public class CommandController(IMqttClientService mqtt, ICommandLogService comma
             value = command.TryGetProperty("value", out var valueProp) ? valueProp.GetInt32() : null,
             reason = command.TryGetProperty("reason", out var reasonProp) ? reasonProp.GetString() : null,
         });
+
         
-        
+        await mqtt.PublishAsync($"farm/{farmId}/windmill/{turbineId}/command", command.GetRawText());
     }
     
     // For testing purposes
