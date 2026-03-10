@@ -110,6 +110,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISieveProcessor, SieveProcessor>();
         services.AddScoped<JwtSettings>();
         services.AddScoped<TokenService>();
+        services.AddCors();
         services.AddAuthorization();
         
         // Allow tests (or other callers) to override registrations, e.g., swap DbContext with a test container
