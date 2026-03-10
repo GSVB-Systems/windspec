@@ -4,8 +4,8 @@ import {commandClient} from "../api-clients.ts";
 const COMMANDS = [
     { id: 'start', label: 'Start Turbine', icon: '▶️', description: 'Bring turbine online', paramField: null },
     { id: 'stop', label: 'Stop Turbine', icon: '⏹️', description: 'Graceful shutdown', paramField: { label: 'Reason (optional)', type: 'text' } },
-    { id: 'interval', label: 'Set Interval', icon: '🔧', description: 'Set interval for TRX updates', paramField: { label: 'Interval (seconds)', type: 'number' } },
-    { id: 'bladePitch', label: 'Set Blade Pitch', icon: '🔧', description: 'Set blade pitch for windmill', paramField: { label: 'Blade Pitch (degrees)', type: 'number' } },
+    { id: 'interval', label: 'Set Interval', icon: '🔧', description: 'Set interval for TRX updates', paramField: { label: 'Interval (seconds (1-60))', type: 'number' } },
+    { id: 'bladePitch', label: 'Set Blade Pitch', icon: '🔧', description: 'Set blade pitch for windmill', paramField: { label: 'Blade Pitch (degrees (0-30))', type: 'number' } },
 ]
 
 export const useCommands = () => {
