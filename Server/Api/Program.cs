@@ -25,6 +25,7 @@ app.UseCors(config => config
 
 app.UseHttpsRedirection();
 
+app.UseCors(_=>_.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().SetIsOriginAllowed(_=> true));
 app.UseOpenApi();
 app.UseSwaggerUi();
 app.UseAuthentication();
