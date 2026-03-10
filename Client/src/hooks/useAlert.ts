@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { realtimeClient } from '../api-clients'
 import type { Alert } from '../models/ServerAPI'
 
-const SSE_URL = 'http://localhost:5031/sse'
+const SSE_URL = '/sse'
 
 /** Max alerts kept in state */
 const MAX_ALERTS = 200
