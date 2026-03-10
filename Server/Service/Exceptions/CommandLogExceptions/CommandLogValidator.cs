@@ -39,9 +39,8 @@ public static class CommandLogValidator
         if (commandLog.action == "setPitch" && (!commandLog.angle.HasValue || commandLog.angle < 0 || commandLog.angle > 30))
             throw new InvalidRequestException("Angle must be provided and value must be between 0 and 30 when action is 'setPitch'.");
         
-        
-        
-        
+        if (commandLog.action == "setInterval" && (!commandLog.value.HasValue || commandLog.value <= 0 || commandLog.value > 60))
+            throw new InvalidRequestException("Value must be provided and greater than 0 when action is 'setInterval'.");
     }
 
     public static void ValidateFarmId(string farmId)
