@@ -18,7 +18,7 @@ const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     return await fetch(url, init);
 };
 
-const baseUrl = "http://localhost:5031";
+const baseUrl = undefined;
 export const realtimeClient = new RealTimeClient(baseUrl, {fetch: customFetch});
 export const userClient = new UserClient(baseUrl, {fetch: customFetch});
 export const commandClient = new CommandClient(baseUrl, {fetch: customFetch});
