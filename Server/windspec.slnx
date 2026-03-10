@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Api/Api.csproj" />
+  <Project Path="Contracts/Contracts.csproj" />
+  <Project Path="Dataaccess/Dataaccess.csproj" />
+  <Project Path="Service/Service.csproj" />
+  <Project Path="Test/Test.csproj" />
+</Solution>

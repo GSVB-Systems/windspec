@@ -27,6 +27,7 @@ bld/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+.idea/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -52,3 +53,7 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+Server/Api/appsettings.Development.json
+Server/Api/.env
+Server/Dataaccess/.env
+Server/Dataaccess/.env
