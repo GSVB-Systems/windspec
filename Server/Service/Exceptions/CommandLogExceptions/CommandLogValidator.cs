@@ -35,9 +35,6 @@ public static class CommandLogValidator
         
         if (commandLog.action != null && commandLog.value.HasValue && commandLog.value == 0)
             throw new InvalidRequestException("Value cannot be zero when action is provided.");
-        
-        if (commandLog.action == "stop" && string.IsNullOrWhiteSpace(commandLog.reason))
-            throw new InvalidRequestException("Reason is required when action is 'stop'.");
 
         if (commandLog.action == "setPitch" && (!commandLog.angle.HasValue || commandLog.angle < 0 || commandLog.angle > 30))
             throw new InvalidRequestException("Angle must be provided and value must be between 0 and 30 when action is 'setPitch'.");
