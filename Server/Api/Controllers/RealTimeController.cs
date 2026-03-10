@@ -15,9 +15,10 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
     {
         var group = "telemetry";
         await backplane.Groups.AddToGroupAsync(connectionId, group);
-        realtimeManager.Subscribe<AppDbContext>(connectionId, group, 
-            criteria: snapshot => { return snapshot.HasChanges<Telemetry>(); },
-            query: async context => { return context.Telemetry.OrderBy(t => t.timestamp).Last(); }
+        ChangeSnapshot? telemetrySnapshot = null;
+        realtimeManager.Subscribe<AppDbContext>(connectionId, group,
+            criteria: snapshot => { telemetrySnapshot = snapshot; return snapshot.HasChanges<Telemetry>(); },
+            query: async context => { return telemetrySnapshot!.OfType<Telemetry>().Last(); }
             );
         return new RealtimeListenResponse<List<Telemetry>>(group, db.Telemetry.OrderByDescending(t => t.timestamp).Take(80640).ToList());
     }
@@ -27,9 +28,10 @@ public class RealTimeController(ISseBackplane backplane,AppDbContext db, IRealti
     {
         var group = "alerts";
         await backplane.Groups.AddToGroupAsync(connectionId, group);
+        ChangeSnapshot? alertSnapshot = null;
         realtimeManager.Subscribe<AppDbContext>(connectionId, group,
-            criteria: snapshot => { return snapshot.HasChanges<Alert>(); },
-            query: async context => { return context.Alert.OrderBy(t => t.timestamp).Last(); }
+            criteria: snapshot => { alertSnapshot = snapshot; return snapshot.HasChanges<Alert>(); },
+            query: async context => { return alertSnapshot!.OfType<Alert>().Last(); }
         );
         return new RealtimeListenResponse<List<Alert>>(group, db.Alert.OrderByDescending(t => t.timestamp).Take(80640).ToList());
     }
