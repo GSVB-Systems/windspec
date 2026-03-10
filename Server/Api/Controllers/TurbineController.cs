@@ -1,10 +1,11 @@
 using Mqtt.Controllers;
 using Service.Interfaces;
 using Service.Services;
+using StateleSSE.AspNetCore;
 
 namespace Api.Controllers;
 
-public class TurbineController(ILogger<TurbineController> logger, ITelemetryService telemetryService, IAlertService alertService) : MqttController
+public class TurbineController(ILogger<TurbineController> logger, ITelemetryService telemetryService, IAlertService alertService, ISseBackplane backplane) : MqttController
 {
     
     private readonly ITelemetryService _telemetryService = telemetryService;
@@ -35,7 +36,10 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
                 status = telemetry.status
             };
 
+            var group = "telemetry";
+
             await _telemetryService.CreateTelemetryAsync(telemetryDTO);
+            await backplane.Clients.SendToGroupAsync(group, telemetryDTO);
 
         }
         
@@ -71,7 +75,10 @@ public class TurbineController(ILogger<TurbineController> logger, ITelemetryServ
                 message = alert.message
             };
             
+            var group = "alerts";
+            
             await _alertService.CreateAlertAsync(alertDTO);
+            await backplane.Clients.SendToGroupAsync(group, alertDTO);
             
         }
     
