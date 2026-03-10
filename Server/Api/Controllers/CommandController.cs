@@ -2,6 +2,7 @@ using Mqtt.Controllers;
 using System.Text.Json;
 using Bogus;
 using Contracts.Models.CommandLogDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 using Service.Services;
@@ -9,7 +10,8 @@ using Service.Services;
 namespace Api.Controllers;
 
 
-[ApiController]
+
+[ApiController, Authorize]
 [Route("api/[controller]")]
 public class CommandController(IMqttClientService mqtt, ICommandLogService commandLogService) : ControllerBase
 {
