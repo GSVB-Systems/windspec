@@ -2,7 +2,6 @@ import LoginPage from './components/LoginPage'
 import Dashboard from './components/Dashboard'
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router";
 import ProtectedRoute from "./components/ProtectedRouting/ProtectedRoute.tsx";
-import CommandPage from "./components/CommandPage.tsx";
 
 function App() {
     return (
@@ -16,14 +15,6 @@ function App() {
                         element: (
                             <ProtectedRoute>
                                 <Dashboard/>
-                            </ProtectedRoute>
-                        )
-                    },
-                    {
-                        path: "/commands",
-                        element: (
-                            <ProtectedRoute>
-                                <CommandPage/>
                             </ProtectedRoute>
                         )
                     },
