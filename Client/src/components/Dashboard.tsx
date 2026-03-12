@@ -13,7 +13,7 @@ export default function Dashboard() {
     const [commandTurbineId, setCommandTurbineId] = useState<string | null>(null)
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken')
+        sessionStorage.removeItem('token')
         window.location.reload()
     }
 
