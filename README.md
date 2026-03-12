@@ -13,7 +13,8 @@
 
 ## 📖 Overview
 
-WindSpec is a classical 3-tier solution with repositories, services, and a REST API connected to a React frontend. The system subscribes to an **MQTT broker** to receive real-time data from wind turbines and persists it to the database as needed.
+WindSpec is a classical 3-tier solution with repositories, services, and a REST API connected to a React frontend. The system subscribes to an **MQTT broker** to receive real-time data from wind turbines and persists it to the database as needed. The dashboard shows a live overview of the farm with the ID GSVB2.
+
 
 **Key characteristics:**
 - 🏗️ Clear layer division (Repository → Service → API → Frontend)
