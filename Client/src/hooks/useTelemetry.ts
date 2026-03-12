@@ -5,7 +5,7 @@ import type { Telemetry } from '../models/ServerAPI'
 const SSE_URL = '/sse'
 
 /** Max data points kept per turbine */
-const MAX_POINTS = 500
+const MAX_POINTS = 80640
 /** How often (ms) the buffered data is flushed to React state */
 const FLUSH_INTERVAL = 500
 
