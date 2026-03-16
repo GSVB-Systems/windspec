@@ -45,7 +45,7 @@ The API and frontend will be available at your configured ports once the contain
 ### 🌐 Live Demo
 
 The application is deployed and accessible at:
-**[https://client-bold-dew-702.fly.dev/login](https://client-bold-dew-702.fly.dev/login)**
+**[https://client-bold-dew-702.fly.dev](https://client-bold-dew-702.fly.dev)**
 
 > Hosted on [fly.io](https://fly.io) · Database on [neon.tech](https://neon.tech)
 
